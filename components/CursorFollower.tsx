@@ -68,7 +68,7 @@ export default function CursorFollower() {
     return (
         <div
             ref={cursorRef}
-            className={`fixed top-0 left-0 w-3 h-3 bg-red-600 rounded-full pointer-events-none z-[9999] -mt-1.5 -ml-1.5`}
+            className={`hidden md:block fixed top-0 left-0 w-3 h-3 bg-red-600 rounded-full pointer-events-none z-[9999] -mt-1.5 -ml-1.5`}
             style={{
                 // Initialize off-screen to avoid jump
                 transform: 'translate3d(-100px, -100px, 0)'

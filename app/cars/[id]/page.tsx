@@ -232,7 +232,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Mileage</span>
                                                 <span className="text-base font-bold text-white">{car.mileage}</span>
                                             </div>
@@ -248,7 +248,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Fuel Type</span>
                                                 <span className="text-base font-bold text-white">{car.engine}</span>
                                             </div>
@@ -264,7 +264,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Body Type</span>
                                                 <span className="text-base font-bold text-white">{car.bodyType}</span>
                                             </div>
@@ -280,7 +280,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Transmission</span>
                                                 <span className="text-base font-bold text-white">{car.transmission}</span>
                                             </div>
@@ -296,7 +296,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Drivetrain</span>
                                                 <span className="text-base font-bold text-white">{car.drivetrain}</span>
                                             </div>
@@ -312,7 +312,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Horsepower</span>
                                                 <span className="text-base font-bold text-white">{car.power}</span>
                                             </div>
@@ -329,7 +329,7 @@ export default function CarDetailPage() {
                                                     inactiveZone={0.01}
                                                     borderWidth={3}
                                                 />
-                                                <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                                <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                     <span className="text-xs text-gray-400 uppercase tracking-widest">Color</span>
                                                     <span className="text-base font-bold text-white">{car.extColors.join(', ')}</span>
                                                 </div>
@@ -347,7 +347,7 @@ export default function CarDetailPage() {
                                                     inactiveZone={0.01}
                                                     borderWidth={3}
                                                 />
-                                                <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                                <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                     <span className="text-xs text-gray-400 uppercase tracking-widest">Engine CC</span>
                                                     <span className="text-base font-bold text-white">{car.engineCC}</span>
                                                 </div>
@@ -364,7 +364,7 @@ export default function CarDetailPage() {
                                                 inactiveZone={0.01}
                                                 borderWidth={3}
                                             />
-                                            <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                            <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                 <span className="text-xs text-gray-400 uppercase tracking-widest">Seats</span>
                                                 <span className="text-base font-bold text-white">{car.seats}</span>
                                             </div>
@@ -381,7 +381,7 @@ export default function CarDetailPage() {
                                                     inactiveZone={0.01}
                                                     borderWidth={3}
                                                 />
-                                                <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                                <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                     <span className="text-xs text-gray-400 uppercase tracking-widest">Doors</span>
                                                     <span className="text-base font-bold text-white">{car.doors}</span>
                                                 </div>
@@ -399,7 +399,7 @@ export default function CarDetailPage() {
                                                     inactiveZone={0.01}
                                                     borderWidth={3}
                                                 />
-                                                <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                                <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                     <span className="text-xs text-gray-400 uppercase tracking-widest">Geran</span>
                                                     <span className="text-base font-bold text-white">{car.geran}</span>
                                                 </div>
@@ -417,7 +417,7 @@ export default function CarDetailPage() {
                                                     inactiveZone={0.01}
                                                     borderWidth={3}
                                                 />
-                                                <div className="relative flex justify-between items-center rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
+                                                <div className="relative flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-white/10 p-4 bg-black/40 backdrop-blur-sm z-10">
                                                     <span className="text-xs text-gray-400 uppercase tracking-widest">Spare Key</span>
                                                     <span className="text-base font-bold text-white">{car.spareKey}</span>
                                                 </div>

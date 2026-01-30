@@ -48,7 +48,7 @@ export default function Footer() {
 
                     {/* Large Watermark Text - In flow now for spacing */}
                     <div className="w-full text-center pointer-events-none select-none mb-10">
-                        <span className="text-[12rem] md:text-[18rem] font-bold tracking-tighter leading-none block" style={{ color: '#e0e0e0' }}>
+                        <span className="text-6xl sm:text-8xl md:text-[12rem] lg:text-[18rem] font-bold tracking-tighter leading-none block" style={{ color: '#e0e0e0' }}>
                             byride
                         </span>
                     </div>
