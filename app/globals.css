@@ -1,0 +1,77 @@
+/* View Transitions API */
+@view-transition {
+  navigation: auto;
+}
+
+/* Customize the transition animation for car images */
+::view-transition-old(car-image),
+::view-transition-new(car-image) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(car-image) {
+  animation-name: fade-out, scale-down;
+}
+
+::view-transition-new(car-image) {
+  animation-name: fade-in, scale-up;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes scale-down {
+  to {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1.05);
+  }
+}
+
+@import "tailwindcss";
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: white;
+  /* Changed from black to white for the margin effect */
+}
