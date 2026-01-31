@@ -1,5 +1,6 @@
-import Link from 'next/link';
+
 import Image from 'next/image';
+import TransitionLink from './TransitionLink';
 
 export default function Footer() {
     return (
@@ -8,6 +9,15 @@ export default function Footer() {
 
                 {/* Contact Section */}
                 <div className="text-center max-w-2xl mx-auto mb-12">
+                    <div className="flex justify-center mb-8">
+                        <Image
+                            src="/assets/byride-logo.png"
+                            alt="Byride Logo"
+                            width={80}
+                            height={80}
+                            className="object-contain"
+                        />
+                    </div>
                     <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 tracking-tight leading-tight">
                         Need help finding <br />
                         your perfect car today?
@@ -17,30 +27,16 @@ export default function Footer() {
                         and exclusive offers to make your next purchase effortless.
                     </p>
 
-                    {/* Profile */}
-                    <div className="flex flex-col items-center gap-4 mb-8">
-                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100">
-                            {/* Placeholder or reuse one of the client avatars */}
-                            <Image
-                                src="/assets/branden-profile.jpg"
-                                alt="Branden"
-                                width={64}
-                                height={64}
-                                className="object-cover w-full h-full"
-                            />
-                        </div>
-                        <div className="text-center">
-                            <div className="font-bold text-black text-lg">Branden</div>
-                            <div className="text-gray-400 text-sm">Sales Director</div>
-                        </div>
-                    </div>
+                    {/* Profile Removed as requested */}
 
-                    <Link
-                        href="/contact"
+                    <a
+                        href="https://wa.me/601119453913"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-block bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors"
                     >
-                        Contact Branden
-                    </Link>
+                        Contact Our Team
+                    </a>
                 </div>
 
                 {/* Bottom Section with Watermark */}
@@ -48,7 +44,7 @@ export default function Footer() {
 
                     {/* Large Watermark Text - In flow now for spacing */}
                     <div className="w-full text-center pointer-events-none select-none mb-10">
-                        <span className="text-6xl sm:text-8xl md:text-[12rem] lg:text-[18rem] font-bold tracking-tighter leading-none block" style={{ color: '#e0e0e0' }}>
+                        <span className="text-[5rem] sm:text-8xl md:text-[12rem] lg:text-[18rem] font-bold tracking-tighter leading-none block" style={{ color: '#e0e0e0' }}>
                             byride
                         </span>
                     </div>

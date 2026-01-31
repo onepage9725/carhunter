@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+
 import Image from 'next/image';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import ScrollReveal from './ScrollReveal';
+import TransitionLink from './TransitionLink';
 
 interface Car {
     id: string;
@@ -84,7 +85,7 @@ export default function CarGrid() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {cars.map((car, index) => (
                             <ScrollReveal key={car.id} delay={index * 0.15}>
-                                <Link href={`/cars/${car.id}`}>
+                                <TransitionLink href={`/cars/${car.id}`}>
                                     <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-200 cursor-pointer">
 
                                         {/* Header */}
@@ -139,21 +140,13 @@ export default function CarGrid() {
                                                 <span className="font-bold text-gray-900">{car.transmissionGeneric || car.transmission}</span>
                                             </div>
                                             <div className="flex items-center">
-                                                <span className="w-1/3 text-gray-500">Int/Ext colors</span>
+                                                <span className="w-1/3 text-gray-500">Exterior color</span>
                                                 <div className="flex items-center gap-2">
                                                     {/* Exterior Dots */}
                                                     {car.extColors?.map((color, i) => (
                                                         <div key={i} className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: color }} />
                                                     ))}
-                                                    {/* Interior Dots */}
-                                                    {car.intColors?.map((color, i) => (
-                                                        <div key={i} className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: color }} />
-                                                    ))}
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="w-1/3 text-gray-500">Avg. MPG</span>
-                                                <span className="font-bold text-gray-900">{car.mpg}</span>
                                             </div>
                                             <div className="flex items-center">
                                                 <span className="w-1/3 text-gray-500">Seats</span>
@@ -174,7 +167,7 @@ export default function CarGrid() {
                                             </div>
                                         </div>
                                     </div>
-                                </Link>
+                                </TransitionLink>
                             </ScrollReveal>
                         ))}
                     </div>
@@ -183,7 +176,7 @@ export default function CarGrid() {
                 {/* Explore All Cars Button */}
                 <ScrollReveal delay={0.3}>
                     <div className="flex justify-center mt-12">
-                        <Link
+                        <TransitionLink
                             href="/inventory"
                             className="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-zinc-800 transition-colors shadow-lg shadow-black/10 flex items-center gap-2"
                         >
@@ -191,7 +184,7 @@ export default function CarGrid() {
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
-                        </Link>
+                        </TransitionLink>
                     </div>
                 </ScrollReveal>
             </div>

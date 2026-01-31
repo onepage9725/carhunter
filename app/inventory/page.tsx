@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+
 import Image from 'next/image';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import TransitionLink from '@/components/TransitionLink';
 
 interface Car {
     id: string;
@@ -320,7 +321,7 @@ export default function InventoryPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {filteredCars.map((car) => (
-                                <Link key={car.id} href={`/cars/${car.id}`}>
+                                <TransitionLink key={car.id} href={`/cars/${car.id}`}>
                                     <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-200 cursor-pointer">
                                         <div className="mb-6">
                                             <h3 className="text-2xl font-bold text-gray-900 mb-1">{car.brand} {car.model}</h3>
@@ -370,19 +371,12 @@ export default function InventoryPage() {
                                                 <span className="font-bold text-gray-900">{car.transmissionGeneric || car.transmission}</span>
                                             </div>
                                             <div className="flex items-center">
-                                                <span className="w-1/3 text-gray-500">Int/Ext colors</span>
+                                                <span className="w-1/3 text-gray-500">Exterior color</span>
                                                 <div className="flex items-center gap-2">
                                                     {car.extColors?.map((color, i) => (
                                                         <div key={i} className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: color }} />
                                                     ))}
-                                                    {car.intColors?.map((color, i) => (
-                                                        <div key={i} className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: color }} />
-                                                    ))}
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="w-1/3 text-gray-500">Avg. MPG</span>
-                                                <span className="font-bold text-gray-900">{car.mpg}</span>
                                             </div>
                                             <div className="flex items-center">
                                                 <span className="w-1/3 text-gray-500">Seats</span>
@@ -400,7 +394,7 @@ export default function InventoryPage() {
                                             </div>
                                         </div>
                                     </div>
-                                </Link>
+                                </TransitionLink>
                             ))}
                         </div>
                     )}

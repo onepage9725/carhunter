@@ -1,9 +1,10 @@
 "use client";
 
-import Link from 'next/link';
+
 import { ArrowRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import TransitionLink from './TransitionLink';
 import { useRef } from 'react';
 
 export default function SellCarCTA() {
@@ -55,19 +56,14 @@ export default function SellCarCTA() {
 
                 <ScrollReveal delay={0.4}>
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                        <Link
+                        <TransitionLink
                             href="/sell"
                             className="group bg-white text-black px-10 py-5 rounded-full font-bold text-lg hover:bg-gray-100 transition-all flex items-center gap-2"
                         >
                             Get your valuation
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link
-                            href="/how-it-works"
-                            className="px-10 py-5 rounded-full font-semibold text-lg hover:text-white/80 transition-colors"
-                        >
-                            How it works
-                        </Link>
+                        </TransitionLink>
+
                     </div>
                 </ScrollReveal>
             </div>

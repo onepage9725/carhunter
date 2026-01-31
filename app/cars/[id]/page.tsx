@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
+
 import Image from 'next/image';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import TransitionLink from '@/components/TransitionLink';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { GlowingEffect } from "@/components/ui/glowing-effect";
@@ -95,13 +96,13 @@ export default function CarDetailPage() {
             <div className="pt-4">
                 {/* Back Button */}
                 <div className="container mx-auto px-4 md:px-6 py-3">
-                    <Link
+                    <TransitionLink
                         href="/inventory"
                         className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                     >
                         <ArrowLeft size={20} />
                         Back to Inventory
-                    </Link>
+                    </TransitionLink>
                 </div>
 
                 {/* Main Content - 60/40 Split */}
@@ -207,9 +208,15 @@ export default function CarDetailPage() {
                                                 {car.status}
                                             </span>
                                         </div>
-                                        <ShinyButton className="text-sm px-6 py-2">
-                                            Enquire Now
-                                        </ShinyButton>
+                                        <a
+                                            href={`https://wa.me/601119453913?text=I'm interested in the ${car.brand} ${car.model}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <ShinyButton className="text-sm px-6 py-2">
+                                                Enquire Now
+                                            </ShinyButton>
+                                        </a>
                                     </div>
                                     <h1 className="text-xl text-gray-400 mb-2">{car.brand}</h1>
                                     <h2 className="text-4xl font-bold mb-6">{car.model}</h2>

@@ -1,11 +1,25 @@
 "use client";
 
-import Link from 'next/link';
+
 import ScrollReveal from './ScrollReveal';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import TransitionLink from './TransitionLink';
+import { useRef, useState } from 'react';
 
 export default function Hero() {
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const videos = [
+        "/assets/hero1.mp4",
+        "/assets/hero2.mp4",
+        "/assets/hero3.mp4"
+    ];
+
+    const handleVideoEnd = () => {
+        setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+    };
+
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -23,18 +37,24 @@ export default function Hero() {
                     style={{ y }}
                     className="absolute inset-0 w-full h-[120%] -top-[10%]"
                 >
-                    <video
-                        className="w-full h-full object-cover pointer-events-none select-none"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        poster="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2940&auto=format&fit=crop"
-                        onContextMenu={(e) => e.preventDefault()}
-                    >
-                        <source src="/assets/hero2.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                    <AnimatePresence mode="wait">
+                        <motion.video
+                            key={currentVideoIndex}
+                            src={videos[currentVideoIndex]}
+                            autoPlay
+                            muted
+                            playsInline
+                            onEnded={handleVideoEnd}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }}
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                            onContextMenu={(e) => e.preventDefault()}
+                            disablePictureInPicture
+                            controls={false}
+                        />
+                    </AnimatePresence>
                 </motion.div>
 
                 {/* Dark Overlay - Strong Vignette */}
@@ -81,15 +101,25 @@ export default function Hero() {
 
                     {/* CTA Button */}
                     <ScrollReveal delay={0.8}>
-                        <Link
-                            href="#"
-                            className="bg-white text-black px-8 py-4 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors shadow-lg shadow-black/20"
-                        >
-                            Explore Inventory
-                        </Link>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <TransitionLink
+                                href="/inventory"
+                                className="group flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-gray-100 transition-all hover:scale-105 active:scale-95"
+                            >
+                                Browse Inventory
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </TransitionLink>
+                            <TransitionLink
+                                href="/sell"
+                                className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-medium hover:bg-white/20 transition-all hover:scale-105 active:scale-95"
+                            >
+                                Sell Your Car
+                            </TransitionLink>
+                        </div>
                     </ScrollReveal>
                 </div>
             </div>
         </section>
     )
 }
+

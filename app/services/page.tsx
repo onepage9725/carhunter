@@ -4,18 +4,27 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 
 export default function ServicesPage() {
-    const heroRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: heroRef,
-        offset: ["start start", "end start"]
-    });
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const videos = [
+        "/assets/hero1.mp4",
+        "/assets/hero2.mp4",
+        "/assets/hero3.mp4"
+    ];
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    const handleVideoEnd = () => {
+        setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+    };
+
+    const heroRef = useRef(null);
+
+    // Prevent right click to make "undownloadable"
+    const handleContextMenu = (e: React.MouseEvent) => {
+        e.preventDefault();
+    };
 
     const services = [
         {
@@ -42,26 +51,33 @@ export default function ServicesPage() {
         <div className="min-h-screen bg-black text-white">
             <Navbar />
 
-            {/* Hero Section with Parallax */}
-            <section ref={heroRef} className="relative h-[70vh] overflow-hidden">
-                {/* Background Image with Parallax */}
-                <motion.div
-                    style={{ y }}
-                    className="absolute inset-0 w-full h-[120%] -top-[10%]"
-                >
-                    <div
-                        className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2940&auto=format&fit=crop")' }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black" />
-                </motion.div>
+            {/* Hero Section with Video Background */}
+            <section ref={heroRef} className="relative h-[70vh] overflow-hidden bg-black" onContextMenu={handleContextMenu}>
+                {/* Video Background Loop */}
+                <div className="absolute inset-0 w-full h-full">
+                    <AnimatePresence mode="wait">
+                        <motion.video
+                            key={currentVideoIndex}
+                            src={videos[currentVideoIndex]}
+                            autoPlay
+                            muted
+                            playsInline
+                            onEnded={handleVideoEnd}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }} // Smooth crossfade transition
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                            controls={false}
+                            disablePictureInPicture
+                        />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
+                </div>
 
                 {/* Hero Content */}
-                <motion.div
-                    style={{ opacity }}
-                    className="relative h-full flex items-center justify-center text-center px-4"
-                >
-                    <div className="max-w-4xl">
+                <div className="relative h-full flex items-center justify-center text-center px-4 z-20 pointer-events-none">
+                    <div className="max-w-4xl pointer-events-auto">
                         <ScrollReveal>
                             <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
                                 Our Services
@@ -73,7 +89,7 @@ export default function ServicesPage() {
                             </p>
                         </ScrollReveal>
                     </div>
-                </motion.div>
+                </div>
             </section>
 
             {/* Services Sections */}
@@ -90,7 +106,7 @@ export default function ServicesPage() {
                                 <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}>
                                     {/* Image Side */}
                                     <ScrollReveal
-                                        className="lg:w-1/2"
+                                        className="w-full lg:w-1/2"
                                         direction={isEven ? "left" : "right"}
                                     >
                                         <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl">

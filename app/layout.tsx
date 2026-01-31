@@ -3,14 +3,16 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import './lenis.css'
 import { AuthProvider } from '@/context/AuthContext'
+import { TransitionProvider } from '@/context/TransitionContext'
 import SmoothScroll from '@/components/SmoothScroll'
 import CursorFollower from '@/components/CursorFollower'
+import Preloader from '@/components/Preloader'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'CarHunter - Premium Used Cars',
-  description: 'Find your dream car with CarHunter.',
+  title: 'Byride | Malaysia Used Car Selling Platform',
+  description: 'Secondhand & Used Cars for sales in Malaysia',
 }
 
 export default function RootLayout({
@@ -22,10 +24,13 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.className} bg-black text-white antialiased selection:bg-red-600 selection:text-white`}>
         <AuthProvider>
-          <SmoothScroll>
-            <CursorFollower />
-            {children}
-          </SmoothScroll>
+          <TransitionProvider>
+            <SmoothScroll>
+              <Preloader />
+              <CursorFollower />
+              {children}
+            </SmoothScroll>
+          </TransitionProvider>
         </AuthProvider>
       </body>
     </html>
