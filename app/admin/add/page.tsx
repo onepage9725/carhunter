@@ -9,13 +9,14 @@ import { ArrowLeft, Upload, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
+import { Reorder } from "framer-motion";
+
 export default function AddCarPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    // Multi-image state
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
+    // Multi-image state with drag-and-drop support
+    const [uploadedImages, setUploadedImages] = useState<{ id: string, file: File, preview: string }[]>([]);
 
     const [formData, setFormData] = useState({
         brand: "",
@@ -43,10 +44,7 @@ export default function AddCarPage() {
         const files = Array.from(e.target.files || []);
         if (files.length === 0) return;
 
-        if (imageFiles.length + files.length > 10) {
-            alert("You can only upload a maximum of 10 images.");
-            return;
-        }
+        // No maximum limit check here anymore
 
         setLoading(true); // Temporarily show loading while converting
 
@@ -85,9 +83,12 @@ export default function AddCarPage() {
             const validFiles = processedFiles.filter((f): f is File => f !== null);
 
             if (validFiles.length > 0) {
-                const newPreviews = validFiles.map(file => URL.createObjectURL(file));
-                setImageFiles(prev => [...prev, ...validFiles]);
-                setPreviews(prev => [...prev, ...newPreviews]);
+                const newImages = validFiles.map(file => ({
+                    id: Math.random().toString(36).substr(2, 9), // Simple unique ID
+                    file,
+                    preview: URL.createObjectURL(file)
+                }));
+                setUploadedImages(prev => [...prev, ...newImages]);
             }
         } catch (error) {
             console.error("Error processing images:", error);
@@ -98,12 +99,13 @@ export default function AddCarPage() {
         }
     };
 
-    const removeImage = (index: number) => {
-        setImageFiles(prev => prev.filter((_, i) => i !== index));
-        setPreviews(prev => {
-            // Revoke the URL to avoid memory leaks
-            URL.revokeObjectURL(prev[index]);
-            return prev.filter((_, i) => i !== index);
+    const removeImage = (idToRemove: string) => {
+        setUploadedImages(prev => {
+            const itemToRemove = prev.find(img => img.id === idToRemove);
+            if (itemToRemove) {
+                URL.revokeObjectURL(itemToRemove.preview);
+            }
+            return prev.filter(img => img.id !== idToRemove);
         });
     };
 
@@ -115,19 +117,21 @@ export default function AddCarPage() {
         try {
             const imageUrls: string[] = [];
 
-            console.log(`Processing ${imageFiles.length} images...`);
+            // Use the current order of uploadedImages
+            const imagesToUpload = uploadedImages.map(img => img.file);
+            console.log(`Processing ${imagesToUpload.length} images...`);
 
             // Upload all images
-            for (const [index, file] of imageFiles.entries()) {
+            for (const [index, file] of imagesToUpload.entries()) {
                 try {
-                    console.log(`Uploading image ${index + 1}/${imageFiles.length}: ${file.name} (${file.type}, ${file.size} bytes)`);
+                    console.log(`Uploading image ${index + 1}/${imagesToUpload.length}: ${file.name} (${file.type}, ${file.size} bytes)`);
 
                     if (!file || file.size === 0) {
                         console.error(`Skipping invalid file: ${file.name}`);
                         continue;
                     }
 
-                    const storageRef = ref(storage, `cars/${Date.now()}_${file.name}`);
+                    const storageRef = ref(storage, `cars/${Date.now()}_${index}_${file.name}`);
 
                     console.log("Storage ref created:", storageRef.fullPath);
                     console.log("Attempting upload...");
@@ -235,6 +239,7 @@ export default function AddCarPage() {
         }
     };
 
+
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
@@ -249,52 +254,63 @@ export default function AddCarPage() {
                 {/* Image Upload Section */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Vehicle Images (Max 10)
+                        Vehicle Images (Unlimited - Drag to reorder)
                     </label>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                        {previews.map((src, index) => (
-                            <div key={index} className="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group">
-                                <Image src={src} alt={`Preview ${index}`} fill className="object-cover" />
+                    <Reorder.Group
+                        axis="y"
+                        values={uploadedImages}
+                        onReorder={setUploadedImages}
+                        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"
+                    >
+                        {uploadedImages.map((item, index) => (
+                            <Reorder.Item
+                                key={item.id}
+                                value={item}
+                                className="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group cursor-move touch-none"
+                                whileDrag={{ scale: 1.05, zIndex: 10 }}
+                            >
+                                <Image src={item.preview} alt={`Preview ${index}`} fill className="object-cover pointer-events-none" />
                                 <button
                                     type="button"
-                                    onClick={() => removeImage(index)}
-                                    className="absolute top-2 right-2 bg-white/90 p-1.5 rounded-full shadow-sm text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent drag start when clicking remove
+                                        removeImage(item.id);
+                                    }}
+                                    className="absolute top-2 right-2 bg-white/90 p-1.5 rounded-full shadow-sm text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100 z-20 cursor-pointer"
                                 >
                                     <X size={14} />
                                 </button>
                                 {index === 0 && (
-                                    <div className="absolute bottom-2 left-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">
+                                    <div className="absolute bottom-2 left-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-medium z-10">
                                         Main
                                     </div>
                                 )}
-                            </div>
+                            </Reorder.Item>
                         ))}
 
                         {/* Upload Button Block */}
-                        {previews.length < 10 && (
-                            <div className="relative aspect-square border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors cursor-pointer group">
-                                {loading && imageFiles.length === 0 ? (
-                                    <Loader2 size={24} className="animate-spin text-gray-400" />
-                                ) : (
-                                    <>
-                                        <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-2 text-gray-400 group-hover:scale-110 transition-transform">
-                                            <Upload size={20} />
-                                        </div>
-                                        <span className="text-xs font-medium text-gray-500">Add Image</span>
-                                        <input
-                                            type="file"
-                                            accept="image/*, .heic, .heif"
-                                            multiple
-                                            onChange={handleImageChange}
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                        />
-                                    </>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                    {previews.length === 0 && (
+                        <div className="relative aspect-square border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors cursor-pointer group">
+                            {loading && uploadedImages.length === 0 ? (
+                                <Loader2 size={24} className="animate-spin text-gray-400" />
+                            ) : (
+                                <>
+                                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-2 text-gray-400 group-hover:scale-110 transition-transform">
+                                        <Upload size={20} />
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-500">Add Image</span>
+                                    <input
+                                        type="file"
+                                        accept="image/*, .heic, .heif"
+                                        multiple
+                                        onChange={handleImageChange}
+                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                    />
+                                </>
+                            )}
+                        </div>
+                    </Reorder.Group>
+                    {uploadedImages.length === 0 && (
                         <p className="text-sm text-gray-400 text-center py-4">
                             {loading ? "Processing images..." : "No images selected. Upload at least one image."}
                         </p>
