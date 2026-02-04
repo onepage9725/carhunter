@@ -14,6 +14,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Byride | Malaysia Used Car Selling Platform',
   description: 'Secondhand & Used Cars for sales in Malaysia',
+  verification: {
+    google: 'luRZuw8gEWczq95pP6A1TPXYOTXEWuuymluQUYLQgTo',
+  },
 }
 
 export default function RootLayout({
