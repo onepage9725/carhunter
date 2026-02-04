@@ -7,6 +7,7 @@ import { TransitionProvider } from '@/context/TransitionContext'
 import SmoothScroll from '@/components/SmoothScroll'
 import CursorFollower from '@/components/CursorFollower'
 import Preloader from '@/components/Preloader'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
               <CursorFollower />
               {children}
             </SmoothScroll>
+            <SpeedInsights />
           </TransitionProvider>
         </AuthProvider>
       </body>
