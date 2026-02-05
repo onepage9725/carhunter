@@ -120,14 +120,14 @@ export default function SimilarCars({ currentCarId, currentBodyType, currentPric
     return (
         <section className="bg-white py-16 border-t border-gray-100">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-                    <div>
+                <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4">
+                    <div className="text-center md:text-left">
                         <h2 className="text-3xl font-bold text-gray-900 mb-2">Similar Vehicles</h2>
                         <p className="text-gray-500">Other vehicles you might be interested in</p>
                     </div>
                     <TransitionLink
                         href="/inventory"
-                        className="group flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all"
+                        className="group hidden md:flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all"
                     >
                         Explore more cars
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

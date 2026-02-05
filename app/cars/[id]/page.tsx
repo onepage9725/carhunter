@@ -134,6 +134,7 @@ export default function CarDetailPage() {
                                     fill
                                     className="object-cover"
                                     priority
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
 
                                 {/* Navigation Arrows */}
@@ -202,6 +203,7 @@ export default function CarDetailPage() {
                                         fill
                                         className="object-cover"
                                         priority={index === 0}
+                                        sizes="(max-width: 1024px) 100vw, 60vw"
                                     />
                                 </div>
                             ))}
