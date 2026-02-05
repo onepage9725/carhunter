@@ -64,7 +64,7 @@ export default function EditCarPage() {
                     }
                 } else {
                     alert("Car not found");
-                    router.push("/admin");
+                    router.push("/admin93193913");
                 }
             } catch (error) {
                 console.error("Error fetching car:", error);
@@ -212,7 +212,7 @@ export default function EditCarPage() {
                 updatedAt: new Date()
             });
 
-            router.push("/admin");
+            router.push("/admin93193913");
         } catch (error) {
             console.error("Error updating car:", error);
             alert("Failed to update car.");
@@ -232,7 +232,7 @@ export default function EditCarPage() {
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/admin" className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-black">
+                <Link href="/admin93193913" className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-black">
                     <ArrowLeft size={20} />
                 </Link>
                 <h1 className="text-3xl font-bold text-black">Edit Vehicle</h1>
@@ -475,7 +475,7 @@ export default function EditCarPage() {
                 </div>
 
                 <div className="flex justify-end gap-4 pt-4 border-t border-gray-100">
-                    <Link href="/admin" className="px-6 py-3 rounded-full font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    <Link href="/admin93193913" className="px-6 py-3 rounded-full font-medium text-gray-600 hover:bg-gray-100 transition-colors">
                         Cancel
                     </Link>
                     <button

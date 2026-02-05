@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const carsSnapshot = await getDocs(carsCollection)
 
     const carRoutes = carsSnapshot.docs.map((doc) => ({
-        url: `${baseUrl}/cars/${doc.id}`,
+        url: `${baseUrl}/cars/${doc.data().slug || doc.id}`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.8,

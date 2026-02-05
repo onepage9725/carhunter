@@ -51,7 +51,7 @@ export default function Footer() {
 
                     {/* Copyright */}
                     <div className="w-full flex justify-center items-center text-sm text-gray-400">
-                        <span>© 2025 All Rights Reserved</span>
+                        <span>We are based in Kuala Lumpur and Selangor, but we serve clients across Malaysia.</span>
                     </div>
                 </div>
             </div>

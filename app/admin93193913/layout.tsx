@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, LayoutDashboard, Database, Settings } from "lucide-react";
+import { LogOut, LayoutDashboard, Database, Settings, Link2 } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const { user, loading, logout } = useAuth();
@@ -13,8 +13,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname();
 
     useEffect(() => {
-        if (!loading && !user && pathname !== "/admin/login") {
-            router.push("/admin/login");
+        if (!loading && !user && pathname !== "/admin93193913/login") {
+            router.push("/admin93193913/login");
         }
     }, [user, loading, router, pathname]);
 
@@ -26,12 +26,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         );
     }
 
-    if (!user && pathname !== "/admin/login") {
+    if (!user && pathname !== "/admin93193913/login") {
         return null; // Will redirect via useEffect
     }
 
     // If on login page, just render children (the login form)
-    if (pathname === "/admin/login") {
+    if (pathname === "/admin93193913/login") {
         return <>{children}</>;
     }
 
@@ -55,11 +55,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <nav className="flex-1 p-4 space-y-2">
                     <Link
-                        href="/admin"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${pathname === '/admin' ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                        href="/admin93193913"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${pathname === '/admin93193913' ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-50'}`}
                     >
                         <LayoutDashboard size={20} />
                         <span className="font-medium">Dashboard</span>
+                    </Link>
+                    <Link
+                        href="/admin93193913/migrate-slugs"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${pathname === '/admin93193913/migrate-slugs' ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                    >
+                        <Link2 size={20} />
+                        <span className="font-medium">Migrate Slugs</span>
                     </Link>
                     {/* Placeholder links for future */}
                     <div className="px-4 py-3 text-gray-400 flex items-center gap-3 cursor-not-allowed opacity-50">
@@ -74,7 +81,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <div className="p-4 border-t border-gray-100">
                     <button
-                        onClick={() => logout()}
+                        onClick={async () => {
+                            await logout();
+                            router.push('/');
+                        }}
                         className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl w-full transition-colors"
                     >
                         <LogOut size={20} />

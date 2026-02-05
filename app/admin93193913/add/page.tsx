@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { collection, addDoc } from "firebase/firestore";
+import { generateUniqueSlug } from "@/lib/slugify";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 import { ArrowLeft, Upload, Loader2, X } from "lucide-react";
@@ -167,7 +168,13 @@ export default function AddCarPage() {
             // Fallback default image if none uploaded
             const mainImage = imageUrls.length > 0 ? imageUrls[0] : "https://images.unsplash.com/photo-1580273916550-e323be2ebdd9?q=80&w=2232";
 
-            console.log("Images uploaded. Adding document to Firestore...");
+            console.log("Images uploaded. Generating slug...");
+
+            // Generate unique slug from brand and model
+            const slug = await generateUniqueSlug(formData.brand, formData.model);
+            console.log("Generated slug:", slug);
+
+            console.log("Adding document to Firestore...");
 
             // Check featured car limit if this car is being featured
             let featuredAt = null;
@@ -209,6 +216,7 @@ export default function AddCarPage() {
             // Add a timeout for Firestore write as well
             const firestorePromise = addDoc(collection(db, "cars"), {
                 ...formData,
+                slug,
                 year: Number(formData.year),
                 seats: Number(formData.seats),
                 doors: Number(formData.doors),
@@ -229,7 +237,7 @@ export default function AddCarPage() {
             console.log("Document successfully written with ID: ", docRef.id);
 
             alert("Car added successfully!");
-            router.push("/admin");
+            router.push("/admin93193913");
         } catch (error) {
             console.error("Critical Error adding car:", error);
             alert("Failed to add car. Check console for details.");
@@ -243,7 +251,7 @@ export default function AddCarPage() {
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/admin" className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-black">
+                <Link href="/admin93193913" className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-black">
                     <ArrowLeft size={20} />
                 </Link>
                 <h1 className="text-3xl font-bold text-black">Add New Vehicle</h1>
@@ -477,7 +485,7 @@ export default function AddCarPage() {
                 </div>
 
                 <div className="flex justify-end gap-4 pt-4 border-t border-gray-100">
-                    <Link href="/admin" className="px-6 py-3 rounded-full font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                    <Link href="/admin93193913" className="px-6 py-3 rounded-full font-medium text-gray-600 hover:bg-gray-100 transition-colors">
                         Cancel
                     </Link>
                     <button

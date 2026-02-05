@@ -115,7 +115,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <Link
-                    href="/admin/add"
+                    href="/admin93193913/add"
                     className="bg-black text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-zinc-800 transition-colors shadow-lg shadow-black/10"
                 >
                     <Plus size={18} />
@@ -212,7 +212,7 @@ export default function AdminDashboard() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <Link href={`/admin/edit/${car.id}`} className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-colors">
+                                                <Link href={`/admin93193913/edit/${car.id}`} className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-colors">
                                                     <Pencil size={18} />
                                                 </Link>
                                                 <button

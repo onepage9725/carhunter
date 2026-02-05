@@ -21,7 +21,7 @@ export default function AdminLogin() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            router.push("/admin");
+            router.push("/admin93193913");
         } catch (err: any) {
             console.error("Login failed:", err);
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {

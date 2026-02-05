@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   verification: {
     google: 'luRZuw8gEWczq95pP6A1TPXYOTXEWuuymluQUYLQgTo',
   },
+  other: {
+    'geo.region': 'MY',
+  },
 }
 
 export default function RootLayout({
@@ -25,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+    <html lang="en-MY" className="dark scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.className} bg-black text-white antialiased selection:bg-red-600 selection:text-white`}>
         <AuthProvider>
           <TransitionProvider>

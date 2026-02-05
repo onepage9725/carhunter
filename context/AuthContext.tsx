@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = async () => {
         await signOut(auth);
-        router.push("/admin/login");
+        router.push("/admin93193913/login");
     };
 
     return (

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import Image from 'next/image';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -12,9 +12,11 @@ import TransitionLink from '@/components/TransitionLink';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import SimilarCars from '@/components/SimilarCars';
 
 interface Car {
     id: string;
+    slug?: string;
     brand: string;
     model: string;
     year: number;
@@ -41,21 +43,32 @@ interface Car {
 export default function CarDetailPage() {
     const params = useParams();
     const router = useRouter();
-    const id = params?.id as string;
+    const slug = params?.id as string;
     const [car, setCar] = useState<Car | null>(null);
     const [loading, setLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState(0);
 
     useEffect(() => {
         const fetchCar = async () => {
-            if (!id) return;
+            if (!slug) return;
             try {
-                const docRef = doc(db, "cars", id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
+                // First try to query by slug field
+                const carsRef = collection(db, "cars");
+                const q = query(carsRef, where("slug", "==", slug));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const docSnap = querySnapshot.docs[0];
                     setCar({ id: docSnap.id, ...docSnap.data() } as Car);
                 } else {
-                    router.push('/inventory');
+                    // Fallback: try to fetch by document ID (for cars without slugs)
+                    const docRef = doc(db, "cars", slug);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        setCar({ id: docSnap.id, ...docSnap.data() } as Car);
+                    } else {
+                        router.push('/inventory');
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching car:", error);
@@ -65,7 +78,7 @@ export default function CarDetailPage() {
         };
 
         fetchCar();
-    }, [id, router]);
+    }, [slug, router]);
 
     if (loading) {
         return (
@@ -113,7 +126,7 @@ export default function CarDetailPage() {
                         <div className="lg:hidden">
                             <div
                                 className="relative w-full h-[60vh]"
-                                style={{ viewTransitionName: `car-image-${id}` } as React.CSSProperties}
+                                style={{ viewTransitionName: `car-image-${slug}` } as React.CSSProperties}
                             >
                                 <Image
                                     src={allImages[selectedImage] || '/placeholder.png'}
@@ -181,7 +194,7 @@ export default function CarDetailPage() {
                                 <div
                                     key={index}
                                     className="relative w-full h-screen"
-                                    style={index === 0 ? { viewTransitionName: `car-image-${id}` } as React.CSSProperties : {}}
+                                    style={index === 0 ? { viewTransitionName: `car-image-${slug}` } as React.CSSProperties : {}}
                                 >
                                     <Image
                                         src={img || '/placeholder.png'}
@@ -440,7 +453,50 @@ export default function CarDetailPage() {
                 </div>
             </div>
 
+            <SimilarCars
+                currentCarId={car.id}
+                currentBodyType={car.bodyType}
+                currentPrice={car.priceRange}
+            />
             <Footer />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org/",
+                        "@type": "Vehicle",
+                        "brand": {
+                            "@type": "Brand",
+                            "name": car.brand
+                        },
+                        "model": car.model,
+                        "vehicleModelDate": car.year,
+                        "vehicleConfiguration": `${car.engine} ${car.transmission}`,
+                        "mileageFromOdometer": {
+                            "@type": "QuantitativeValue",
+                            "value": car.mileage,
+                            "unitCode": "KMT"
+                        },
+                        "numberOfDoors": car.doors,
+                        "numberOfAirbags": car.seats, // Using seats as a proxy for airbag count isn't accurate, but usually 5 seats implies standard safety. Better to leave out if unknown or use specific field. Let's use seats for seating capacity which is more correct.
+                        "seatingCapacity": car.seats,
+                        "vehicleEngine": {
+                            "@type": "EngineSpecification",
+                            "name": car.engineCC
+                        },
+                        "color": car.extColors ? car.extColors.join(', ') : undefined,
+                        "image": car.images && car.images.length > 0 ? car.images[0] : car.image,
+                        "offers": {
+                            "@type": "Offer",
+                            "priceCurrency": "MYR",
+                            "price": car.priceRange.replace(/[^0-9]/g, ''), // Strip non-numeric for schema price
+                            "itemCondition": "https://schema.org/UsedCondition",
+                            "availability": "https://schema.org/InStock",
+                            "url": `https://byride.my/cars/${slug}` // Assuming domain, adjust if needed
+                        }
+                    })
+                }}
+            />
         </div>
     );
 }

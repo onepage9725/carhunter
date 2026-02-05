@@ -12,6 +12,7 @@ import TransitionLink from '@/components/TransitionLink';
 
 interface Car {
     id: string;
+    slug?: string;
     brand: string;
     model: string;
     year: number;
@@ -321,7 +322,7 @@ export default function InventoryPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {filteredCars.map((car) => (
-                                <TransitionLink key={car.id} href={`/cars/${car.id}`}>
+                                <TransitionLink key={car.id} href={`/cars/${car.slug || car.id}`}>
                                     <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-200 cursor-pointer">
                                         <div className="mb-6">
                                             <h3 className="text-2xl font-bold text-gray-900 mb-1">{car.brand} {car.model}</h3>
@@ -332,7 +333,7 @@ export default function InventoryPage() {
 
                                         <div
                                             className="relative h-56 w-full rounded-2xl overflow-hidden mb-8 bg-gray-100"
-                                            style={{ viewTransitionName: `car-image-${car.id}` } as React.CSSProperties}
+                                            style={{ viewTransitionName: `car-image-${car.slug || car.id}` } as React.CSSProperties}
                                         >
                                             <Image
                                                 src={car.image || '/placeholder.png'}
