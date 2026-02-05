@@ -50,7 +50,7 @@ export default function Footer() {
                     </div>
 
                     {/* Copyright */}
-                    <div className="w-full flex justify-center items-center text-sm text-gray-400">
+                    <div className="w-full flex justify-center items-center text-sm text-gray-400 text-center">
                         <span>We are based in Kuala Lumpur and Selangor, but we serve clients across Malaysia.</span>
                     </div>
                 </div>
